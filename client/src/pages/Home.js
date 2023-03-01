@@ -1,18 +1,21 @@
 import React, {useState, useEffect} from 'react';
+import {useNavigate} from "react-router-dom";
 import {registerUser} from '../api/index';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 
-const Home = () => {
+const Home = (props) => {
     const [state, setState] = useState(true);
     const [data, setData] = useState();
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(data) {
             registerUser(data)
             .then(result => {
-                console.log(result)
+                props.sendUser(result);
+                navigate('/tasks');
             })
             .catch(err => {
                 setError(err);

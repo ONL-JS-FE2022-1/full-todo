@@ -1,25 +1,17 @@
-import React, {useReducer} from 'react';
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import React, {useState} from 'react';
+import {BrowserRouter, Routes, Route, redirect} from "react-router-dom";
 import Home from './pages/Home';
 import TodoPage from './pages/TodoPage';
 
-const reducer = (state, action) => {
-  return state;
-}
-
 function App() {
-
-  const [state, dispatch] = useReducer({
-    user: null,
-    tasks: []
-  })
+  const [user, setUser] = useState(null);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />}/>
+        <Route path="/" element={<Home sendUser={setUser} />}/>
         {/* localhost:3000/ -> Home component */}
-        <Route path="/tasks/" element={<TodoPage />}/>
+        <Route path="/tasks/" element={<TodoPage user={user} />}/>
         {/* localhost:3000/tasks/ -> TodoPage component */}
       </Routes>
     </BrowserRouter>
