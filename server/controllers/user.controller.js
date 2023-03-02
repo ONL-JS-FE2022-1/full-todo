@@ -13,13 +13,16 @@ module.exports.registrationUser = async(req, res, next) => {
 
 module.exports.loginUser = async(req, res, next) => {
     try {
-        const {body, passwordHash } = req;
+        const { body } = req;
         const foundUser = await User.findOne({
             email: body.email
         });
         if(foundUser) {
-            const result = await bcrypt.compare(passwordHash, foundUser.passwordHash);
-            return res.status(200).send({data: foundUser});
+            const result = await bcrypt.compare(body.password, foundUser.passwordHash);
+            if(!result) {
+                return next(new Error());
+            }
+            res.status(200).send({data: foundUser})
         }
     } catch (error) {
         next(error);
