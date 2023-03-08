@@ -10,45 +10,14 @@ const TodoPage = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(!props.user) {
-            // return navigate('/');
-            const token = localStorage.getItem('token');
-
-            if(token) {
-                // робимо запит на отримання юзера
-                authUser(token)
-                .then(userData => {
-                    props.sendUser(userData.data);
-                }).catch(error => {
-                    return navigate('/');
-                })
-            } else {
-                // перенаправляємо на аутенфікацію (на "/")
-                return navigate('/');
-            }
-        } else {
-            getTasks(props.user._id)
+            getTasks()
             .then(result => {
                 setTodos(result.data);
             })
             .catch(error => {
                 console.error(error);
             })
-        }
-
-        /*
-        1. Заходимо і перевіряємо, чи є у нас об'єкт юзера.
-        2. Якщо є - все ок, працюємо.
-        3. Якщо немає - дивимось, чи є у нас токен.
-        4. Якщо токен є - беремо його і йдемо на сервер, перевіряємось, якщо токен валідний - 
-        - відправляємо об'єкт юзера у відповідь
-        5. Якщо токен невалідний - видаємо помилку з сервера, на фронті - ловимо цю помилку і у
-        відповідь на неї перенаправляємось на сторінку авторизації і змушуємо користувача вводити
-        логін/пароль знову
-        6. Якщо токена немає - перенаправляємось на сторінку авторизації і змушуємо користувача вводити
-        логін/пароль знову
-        */
-    }, [props.user]);
+    }, []);
 
     const getNewTd = (data) => {
         createTask({
