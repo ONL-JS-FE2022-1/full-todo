@@ -82,13 +82,13 @@ module.exports.refreshSession = async (req, res, next) => {
     try {
         if(verifyResult) {
             const foundUser = await User.findOne({email: verifyResult.email});
-            const rTFromDB = await RefreshToken.findOne({$and: [{token: refreshToken}, {userId: user._id}]});
+            const rTFromDB = await RefreshToken.findOne({$and: [{token: refreshToken}, {userId: foundUser._id}]});
             if(rTFromDB) {
                 const removeResult = await rTFromDB.remove();
                 const newAccessToken = await createAccessToken({userId: foundUser._id, email: foundUser.email});
                 const newRefreshToken = await createRefreshToken({userId: foundUser._id, email: foundUser.email});
                 const addedToken = await RefreshToken.create({
-                    token: refreshToken,
+                    token: newRefreshToken,
                     userId: foundUser._id
                 })
                 res.status(200).send({tokens: {
