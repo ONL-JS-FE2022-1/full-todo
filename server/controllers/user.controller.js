@@ -77,14 +77,16 @@ module.exports.refreshSession = async (req, res, next) => {
     try {
         verifyResult = await verifyRefreshToken(refreshToken);
     } catch (error) {
-        next(new RefreshTokenError('Invalid refresh token'));
+        const newError = new RefreshTokenError('Invalid refresh token');
+        return next(newError); 
     }
     try {
         if(verifyResult) {
             const foundUser = await User.findOne({email: verifyResult.email});
             const rTFromDB = await RefreshToken.findOne({$and: [{token: refreshToken}, {userId: foundUser._id}]});
             if(rTFromDB) {
-                const removeResult = await rTFromDB.remove();
+                // const removeResult = await rTFromDB.remove(); <<--- REMOVED METHOD FROM MONGOOSE
+                const removeResult = await RefreshToken.deleteOne({$and: [{token: refreshToken}, {userId: foundUser._id}]});
                 const newAccessToken = await createAccessToken({userId: foundUser._id, email: foundUser.email});
                 const newRefreshToken = await createRefreshToken({userId: foundUser._id, email: foundUser.email});
                 const addedToken = await RefreshToken.create({

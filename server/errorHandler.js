@@ -24,5 +24,5 @@ module.exports.errorHandler = async(err, req, res, next) => {
         return res.status(401).send({err: err.message});
     }
 
-    return res.status(500).send({err: 'Unkown error'});
+    return res.status(500).send({err: err.message});
 }
