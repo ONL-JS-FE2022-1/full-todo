@@ -150,3 +150,17 @@ iterator.next().value
 За допомогою написанного генератора - скласти (знайти їх суму) числа від 0 до 100.
 
 */
+
+function* numberGenerator() {
+    let number = 0;
+    while(number <= 100) {
+        yield number++;
+    }
+}
+
+let sum = 0;
+for(let number of numberGenerator()) {
+    sum += number;
+}
+
+console.log(sum);
