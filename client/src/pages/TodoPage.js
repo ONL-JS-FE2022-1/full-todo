@@ -12,7 +12,7 @@ const TodoPage = (props) => {
 
     useEffect(() => {
             getTask()
-            .then(({data: data}) => {
+            .then(({data: {data}}) => {
                 setTodos(data);
             })
             .catch(error => {
