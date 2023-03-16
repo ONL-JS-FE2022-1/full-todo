@@ -18,3 +18,9 @@ export const changeStepAction = (value) => {
         value
     })
 }
+
+export const toggleThemeAction = () => {
+    return({
+        type: ACTION_TYPES.TOGGLE_THEME
+    })
+}
