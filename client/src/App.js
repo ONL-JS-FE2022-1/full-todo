@@ -4,28 +4,18 @@ import Home from './pages/Home/Home';
 import TodoPage from './pages/TodoPage';
 import './App.css';
 import history from './BrowserHistory';
-import {authUser} from './api/userApi';
 
 function App() {
-  const [user, setUser] = useState(null);
-
   useEffect(() => {
-    // if(!user) {
-    //       authUser()
-    //       .then(userData => {
-    //           setUser(userData.data);
-    //       }).catch(error => {
-    //           history.push('/');
-    //       })
-    //   }
+    
 }, [])
 
   return (
     <HistoryRouter history={history}>
       <Routes>
-        <Route path="/" element={<Home sendUser={setUser} />}/>
+        <Route path="/" element={<Home />}/>
         {/* localhost:3000/ -> Home component */}
-        <Route path="/tasks/" element={<TodoPage user={user} />}/>
+        <Route path="/tasks/" element={<TodoPage />}/>
         {/* localhost:3000/tasks/ -> TodoPage component */}
       </Routes>
     </HistoryRouter>
