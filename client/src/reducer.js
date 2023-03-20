@@ -14,28 +14,32 @@ const reducer = (state = initialState, action) => {
         case ACTION_TYPES.REGISTER_USER_ERROR:
           case ACTION_TYPES.GET_TASKS_ERROR:
             case ACTION_TYPES.CREATE_TASK_ERROR:
-              case ACTION_TYPES.DELETE_TASK_ERROR: {
-                const {error} = action;
-                return {
-                  ...state,
-                  error
-                }
+              case ACTION_TYPES.AUTH_USER_ERROR:
+                case ACTION_TYPES.DELETE_TASK_ERROR: {
+                  const {error} = action;
+                  return {
+                    ...state,
+                    error
+                  }
               }
 
       case ACTION_TYPES.LOGIN_USER_SUCCESS:
-        case ACTION_TYPES.REGISTER_USER_SUCCESS: {
-          const {data} = action; // DATA NEED ATTENTION
-                return {
-                  ...state,
-                  user: data
-                }
+        case ACTION_TYPES.AUTH_USER_SUCCESS:
+          case ACTION_TYPES.REGISTER_USER_SUCCESS: {
+            const {data} = action; // DATA NEED ATTENTION
+                  return {
+                    ...state,
+                    user: data,
+                    error: null
+                  }
         }
 
       case ACTION_TYPES.GET_TASKS_SUCCESS: {
         const {data} = action; // DATA NEED ATTENTION
                 return {
                   ...state,
-                  tasks: data
+                  tasks: data,
+                  error: null
                 }
       }
 
@@ -43,7 +47,8 @@ const reducer = (state = initialState, action) => {
         const {data: newTask} = action;
         return {
           ...state,
-          tasks: [...state.tasks, newTask]
+          tasks: [...state.tasks, newTask],
+          error: null
         }
       }
 
@@ -52,7 +57,14 @@ const reducer = (state = initialState, action) => {
         const tasks = state.tasks.filter(td => td._id !== deletedTask._id);
         return {
           ...state,
-          tasks
+          tasks,
+          error: null
+        }
+      }
+
+      case ACTION_TYPES.LOG_OUT_REQUEST: {
+        return {
+          ...initialState
         }
       }
 

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import TodoList from '../components/TodoList';
 import ToDoForm from '../components/TodoForm';
-import { getTasksRequest, createTaskRequest, deleteTaskRequest } from '../actions/actionCreator';
+import { getTasksRequest, createTaskRequest, deleteTaskRequest, logOutRequest } from '../actions/actionCreator';
 import {connect} from 'react-redux';
 
 const TodoPage = (props) => {
@@ -20,8 +20,13 @@ const TodoPage = (props) => {
         props.deleteTaskRequest(id);
     }
 
+    const logOutHandler = () => {
+        props.logOutRequest();
+    }
+
     return (
         <div>
+            <button onClick={logOutHandler}>LOG OUT</button>
             <h1>ToDo List</h1>
             <ToDoForm sendData={getNewTd} />
             <TodoList todos={props.tasks} delCallback={delTask} />
@@ -34,7 +39,8 @@ const mapStateToProps = ({tasks}) => ({tasks});
 const mapDispatchToProps = {
     getTasksRequest,
     createTaskRequest,
-    deleteTaskRequest
+    deleteTaskRequest,
+    logOutRequest
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoPage);

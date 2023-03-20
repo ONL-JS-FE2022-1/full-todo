@@ -4,10 +4,14 @@ import Home from './pages/Home/Home';
 import TodoPage from './pages/TodoPage';
 import './App.css';
 import history from './BrowserHistory';
+import { connect } from 'react-redux';
+import { authUserRequest } from './actions/actionCreator';
 
-function App() {
+function App(props) {
   useEffect(() => {
-    
+    if(!props.user) {
+      props.authUserRequest();
+    }
 }, [])
 
   return (
@@ -22,4 +26,10 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = ({user}) => ({user});
+
+const mapDispatchToProps = {
+  authUserRequest
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
